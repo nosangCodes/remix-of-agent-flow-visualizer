@@ -7,6 +7,7 @@ import "./TreeNode.css";
 interface TreeNodeProps {
   node: TreeNodeData;
   isLast?: boolean;
+  isFirst?: boolean;
   depth?: number;
   parentHasMoreSiblings?: boolean[];
   selectedId?: string | null;
@@ -19,10 +20,12 @@ interface TreeNodeProps {
 // Center of icon from content edge: 12px padding + 20px (half of 40px icon) = 32px
 const ICON_CENTER_OFFSET = 32;
 const DEPTH_INDENT = 40;
+const CHILD_MARGIN = 8; // matches .tree-node__child margin-top
 
 export const TreeNode = ({
   node,
   isLast = false,
+  isFirst = true,
   depth = 0,
   parentHasMoreSiblings = [],
   selectedId,
@@ -81,8 +84,10 @@ export const TreeNode = ({
             className="tree-node__connector-line"
             style={{
               left: `${(depth - 1) * DEPTH_INDENT + ICON_CENTER_OFFSET}px`,
-              top: 0,
-              height: isLast ? `${ICON_CENTER_OFFSET}px` : "100%",
+              top: isFirst ? 0 : `-${CHILD_MARGIN}px`,
+              height: isLast 
+                ? `${ICON_CENTER_OFFSET + (isFirst ? 0 : CHILD_MARGIN)}px` 
+                : `calc(100% + ${isFirst ? 0 : CHILD_MARGIN}px)`,
             }}
           />
         </>
@@ -122,6 +127,7 @@ export const TreeNode = ({
               <TreeNode
                 node={child}
                 isLast={index === node.children!.length - 1}
+                isFirst={index === 0}
                 depth={depth + 1}
                 parentHasMoreSiblings={[
                   ...parentHasMoreSiblings,
