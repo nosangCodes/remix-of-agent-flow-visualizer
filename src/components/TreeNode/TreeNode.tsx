@@ -20,6 +20,7 @@ interface TreeNodeProps {
 // Center of icon from content edge: 12px padding + 20px (half of 40px icon) = 32px
 const ICON_CENTER_OFFSET = 32;
 const DEPTH_INDENT = 40;
+const CHILDREN_CONTAINER_MARGIN = 8; // matches .tree-node__children margin-top
 const CHILD_MARGIN = 8; // matches .tree-node__child margin-top
 
 export const TreeNode = ({
@@ -84,10 +85,10 @@ export const TreeNode = ({
             className="tree-node__connector-line"
             style={{
               left: `${(depth - 1) * DEPTH_INDENT + ICON_CENTER_OFFSET}px`,
-              top: isFirst ? 0 : `-${CHILD_MARGIN}px`,
+              top: isFirst ? `-${CHILDREN_CONTAINER_MARGIN}px` : `-${CHILD_MARGIN}px`,
               height: isLast 
-                ? `${ICON_CENTER_OFFSET + (isFirst ? 0 : CHILD_MARGIN)}px` 
-                : `calc(100% + ${isFirst ? 0 : CHILD_MARGIN}px)`,
+                ? `${ICON_CENTER_OFFSET + (isFirst ? CHILDREN_CONTAINER_MARGIN : CHILD_MARGIN)}px` 
+                : `calc(100% + ${isFirst ? CHILDREN_CONTAINER_MARGIN : CHILD_MARGIN}px)`,
             }}
           />
         </>
