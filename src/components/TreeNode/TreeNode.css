@@ -1,0 +1,179 @@
+.tree-node {
+  position: relative;
+}
+
+.tree-node__content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.tree-node__content--clickable {
+  cursor: pointer;
+}
+
+.tree-node__content--selected {
+  border-color: hsl(var(--node-agent-border));
+  background: hsl(var(--card));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.tree-node__content:hover:not(.tree-node__content--selected) {
+  background: hsl(var(--muted));
+}
+
+/* Connecting lines - centered with 40px icon (20px center) + 12px padding = 32px from left */
+.tree-node__vertical-line {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: hsl(var(--tree-line));
+}
+
+.tree-node__horizontal-line {
+  position: absolute;
+  height: 1px;
+  background: hsl(var(--tree-line));
+}
+
+.tree-node__connector-line {
+  position: absolute;
+  width: 1px;
+  background: hsl(var(--tree-line));
+}
+
+/* Chevron button */
+.tree-node__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tree-node__toggle:hover {
+  background: hsl(var(--muted));
+}
+
+.tree-node__toggle-icon {
+  width: 20px;
+  height: 20px;
+  color: hsl(var(--muted-foreground));
+  transition: transform 0.2s ease;
+}
+
+.tree-node__toggle-icon--collapsed {
+  transform: rotate(180deg);
+}
+
+/* Node info */
+.tree-node__info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+
+.tree-node__name {
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+/* Children container */
+.tree-node__children {
+  margin-top: 8px;
+}
+
+.tree-node__child {
+  margin-top: 8px;
+}
+
+.tree-node__child:first-child {
+  margin-top: 0;
+}
+
+/* Root level connector - centered with icon (12px padding + 20px half-icon = 32px) */
+.tree-view__root-connector {
+  position: absolute;
+  left: 32px;
+  width: 1px;
+  background: hsl(var(--tree-line));
+}
+
+/* TreeView container */
+.tree-view {
+  padding: 16px;
+}
+
+.tree-view__item {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.tree-view__item:last-child {
+  margin-bottom: 0;
+}
+
+/* Node Icon */
+.node-icon {
+  display: flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.node-icon--agent {
+  background: hsl(var(--node-agent-bg));
+  color: hsl(var(--node-agent));
+}
+
+.node-icon--tool {
+  background: hsl(var(--node-tool-bg));
+  color: hsl(var(--node-tool));
+}
+
+.node-icon--prompt {
+  background: hsl(var(--node-prompt-bg));
+  color: hsl(var(--node-prompt));
+}
+
+.node-icon--eval {
+  background: hsl(var(--node-eval-bg));
+  color: hsl(var(--node-eval));
+}
+
+/* Node Metadata */
+.node-metadata {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: hsl(var(--muted-foreground));
+}
+
+.node-metadata__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-metadata__icon {
+  width: 14px;
+  height: 14px;
+}
