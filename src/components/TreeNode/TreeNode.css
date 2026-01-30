@@ -24,8 +24,68 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.tree-node__content:hover:not(.tree-node__content--selected) {
+.tree-node__content:hover:not(.tree-node__content--selected):not(.tree-node__content--running) {
   background: hsl(var(--muted));
+}
+
+/* Running state with animated marching ants border */
+.tree-node__content--running {
+  background: hsl(var(--card));
+  border-color: transparent;
+}
+
+.tree-node__running-border {
+  position: absolute;
+  inset: -2px;
+  border-radius: 10px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.tree-node__running-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    hsl(var(--primary)) 0deg,
+    hsl(var(--primary) / 0.3) 60deg,
+    transparent 120deg,
+    transparent 180deg,
+    hsl(var(--primary)) 180deg,
+    hsl(var(--primary) / 0.3) 240deg,
+    transparent 300deg,
+    transparent 360deg
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-border 2s linear infinite;
+}
+
+@keyframes rotate-border {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Completed state */
+.tree-node__content--completed {
+  border-color: hsl(142 76% 36%);
+  background: hsl(142 76% 36% / 0.05);
+}
+
+/* Error state */
+.tree-node__content--error {
+  border-color: hsl(var(--destructive));
+  background: hsl(var(--destructive) / 0.05);
 }
 
 /* Connecting lines - centered with 40px icon (20px center) + 12px padding = 32px from left */

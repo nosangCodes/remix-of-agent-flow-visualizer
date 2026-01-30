@@ -47,10 +47,17 @@ export const TreeNode = ({
     onToggleExpand(node.id);
   };
 
+  const isRunning = node.status === "running";
+  const isCompleted = node.status === "completed";
+  const isError = node.status === "error";
+
   const contentClasses = [
     "tree-node__content",
     (hasChildren || onSelect) && "tree-node__content--clickable",
-    isSelected && "tree-node__content--selected",
+    isSelected && !isRunning && "tree-node__content--selected",
+    isRunning && "tree-node__content--running",
+    isCompleted && "tree-node__content--completed",
+    isError && "tree-node__content--error",
   ]
     .filter(Boolean)
     .join(" ");
@@ -100,6 +107,9 @@ export const TreeNode = ({
         style={{ marginLeft: `${depth * DEPTH_INDENT}px` }}
         onClick={handleClick}
       >
+        {/* Animated running border */}
+        {isRunning && <div className="tree-node__running-border" />}
+        
         <NodeIcon type={node.type} />
         <div className="tree-node__info">
           <span className="tree-node__name">{node.name}</span>
