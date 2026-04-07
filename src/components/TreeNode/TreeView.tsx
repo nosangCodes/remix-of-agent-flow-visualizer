@@ -6,23 +6,9 @@ import "./TreeNode.css";
 
 interface TreeViewProps {
   data: TreeNodeData[];
+  onChange?: (data: TreeNodeData[]) => void;
 }
 
-const collectExpandableIds = (nodes: TreeNodeData[]): string[] => {
-  const ids: string[] = [];
-  const traverse = (nodeList: TreeNodeData[]) => {
-    for (const node of nodeList) {
-      if (node.children && node.children.length > 0) {
-        ids.push(node.id);
-        traverse(node.children);
-      }
-    }
-  };
-  traverse(nodes);
-  return ids;
-};
-
-// Flatten all nodes for lookup by id
 const findNodeById = (nodes: TreeNodeData[], id: string): TreeNodeData | null => {
   for (const node of nodes) {
     if (node.id === id) return node;
@@ -42,7 +28,29 @@ const findNodeById = (nodes: TreeNodeData[], id: string): TreeNodeData | null =>
   return null;
 };
 
-export const TreeView = ({ data }: TreeViewProps) => {
+const updateNodeInTree = (
+  nodes: TreeNodeData[],
+  id: string,
+  updater: (node: TreeNodeData) => TreeNodeData
+): TreeNodeData[] => {
+  return nodes.map((node) => {
+    if (node.id === id) return updater(node);
+    const updated = { ...node };
+    if (updated.children) {
+      updated.children = updateNodeInTree(updated.children, id, updater);
+    }
+    if (updated.trueBranch) {
+      updated.trueBranch = updateNodeInTree(updated.trueBranch, id, updater);
+    }
+    if (updated.falseBranch) {
+      updated.falseBranch = updateNodeInTree(updated.falseBranch, id, updater);
+    }
+    return updated;
+  });
+};
+
+export const TreeView = ({ data: initialData, onChange }: TreeViewProps) => {
+  const [data, setData] = useState<TreeNodeData[]>(initialData);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -68,14 +76,22 @@ export const TreeView = ({ data }: TreeViewProps) => {
   const handleToggleExpand = useCallback((id: string) => {
     setExpandedIds((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       return next;
     });
   }, []);
+
+  const handleUpdateNode = useCallback(
+    (id: string, updates: Partial<TreeNodeData>) => {
+      setData((prev) => {
+        const next = updateNodeInTree(prev, id, (node) => ({ ...node, ...updates }));
+        onChange?.(next);
+        return next;
+      });
+    },
+    [onChange]
+  );
 
   return (
     <>
@@ -103,6 +119,7 @@ export const TreeView = ({ data }: TreeViewProps) => {
         node={selectedNode}
         open={drawerOpen}
         onClose={handleCloseDrawer}
+        onUpdateNode={handleUpdateNode}
       />
     </>
   );
