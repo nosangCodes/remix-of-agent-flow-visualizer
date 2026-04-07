@@ -12,6 +12,7 @@ export const NodeIcon = ({ type, className = "" }: NodeIconProps) => {
     tool: "📦",
     prompt: "💬",
     eval: "✅",
+    condition: "⑂",
   };
 
   return (

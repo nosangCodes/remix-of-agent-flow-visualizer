@@ -237,3 +237,51 @@
   width: 14px;
   height: 14px;
 }
+
+/* Condition Node */
+.node-icon--condition {
+  background: hsl(var(--node-condition-bg));
+  color: hsl(var(--node-condition));
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.condition-node__expression {
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  color: hsl(var(--node-condition));
+  background: hsl(var(--node-condition-bg));
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.condition-node__branch-label {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+}
+
+.condition-node__branch-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 10px;
+  letter-spacing: 0.02em;
+}
+
+.condition-node__branch-badge--true {
+  background: hsl(var(--node-condition-true-bg));
+  color: hsl(var(--node-condition-true));
+  border: 1px solid hsl(var(--node-condition-true) / 0.3);
+}
+
+.condition-node__branch-badge--false {
+  background: hsl(var(--node-condition-false-bg));
+  color: hsl(var(--node-condition-false));
+  border: 1px solid hsl(var(--node-condition-false) / 0.3);
+}

@@ -52,6 +52,13 @@ All colors MUST be HSL.
     --node-eval: 152 69% 40%;
     --node-eval-bg: 152 69% 97%;
 
+    --node-condition: 262 83% 58%;
+    --node-condition-bg: 262 83% 97%;
+    --node-condition-true: 152 69% 40%;
+    --node-condition-true-bg: 152 69% 95%;
+    --node-condition-false: 0 84% 60%;
+    --node-condition-false-bg: 0 84% 97%;
+
     /* Connecting lines */
     --tree-line: 180 25% 75%;
 
@@ -106,6 +113,13 @@ All colors MUST be HSL.
     
     --node-eval: 152 69% 50%;
     --node-eval-bg: 152 30% 12%;
+
+    --node-condition: 262 83% 68%;
+    --node-condition-bg: 262 40% 15%;
+    --node-condition-true: 152 69% 50%;
+    --node-condition-true-bg: 152 40% 12%;
+    --node-condition-false: 0 84% 60%;
+    --node-condition-false-bg: 0 50% 12%;
 
     --tree-line: 180 15% 35%;
 

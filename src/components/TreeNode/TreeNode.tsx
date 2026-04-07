@@ -2,6 +2,7 @@ import { ChevronUp } from "lucide-react";
 import { TreeNodeData } from "./types";
 import { NodeIcon } from "./NodeIcon";
 import { NodeMetadata } from "./NodeMetadata";
+import { ConditionNode } from "./ConditionNode";
 import "./TreeNode.css";
 
 interface TreeNodeProps {
@@ -16,12 +17,10 @@ interface TreeNodeProps {
   onToggleExpand: (id: string) => void;
 }
 
-// Constants for alignment - icon is 40px, padding is 12px
-// Center of icon from content edge: 12px padding + 20px (half of 40px icon) = 32px
 const ICON_CENTER_OFFSET = 32;
 const DEPTH_INDENT = 40;
-const CHILDREN_CONTAINER_MARGIN = 8; // matches .tree-node__children margin-top
-const CHILD_MARGIN = 8; // matches .tree-node__child margin-top
+const CHILDREN_CONTAINER_MARGIN = 8;
+const CHILD_MARGIN = 8;
 
 export const TreeNode = ({
   node,
@@ -34,6 +33,23 @@ export const TreeNode = ({
   onSelect,
   onToggleExpand,
 }: TreeNodeProps) => {
+  // Delegate to ConditionNode for condition type
+  if (node.type === "condition") {
+    return (
+      <ConditionNode
+        node={node}
+        isLast={isLast}
+        isFirst={isFirst}
+        depth={depth}
+        parentHasMoreSiblings={parentHasMoreSiblings}
+        selectedId={selectedId}
+        expandedIds={expandedIds}
+        onSelect={onSelect}
+        onToggleExpand={onToggleExpand}
+      />
+    );
+  }
+
   const hasChildren = node.children && node.children.length > 0;
   const isSelected = selectedId === node.id;
   const isExpanded = expandedIds.has(node.id);
@@ -67,7 +83,6 @@ export const TreeNode = ({
       {/* Connecting lines for nested items */}
       {depth > 0 && (
         <>
-          {/* Vertical lines from parent levels */}
           {parentHasMoreSiblings.map(
             (hasMore, index) =>
               hasMore && (
@@ -78,7 +93,6 @@ export const TreeNode = ({
                 />
               )
           )}
-          {/* Horizontal connector line */}
           <div
             className="tree-node__horizontal-line"
             style={{
@@ -87,7 +101,6 @@ export const TreeNode = ({
               width: `${DEPTH_INDENT - ICON_CENTER_OFFSET + ICON_CENTER_OFFSET}px`,
             }}
           />
-          {/* Vertical line to this node */}
           <div
             className="tree-node__connector-line"
             style={{
@@ -107,7 +120,6 @@ export const TreeNode = ({
         style={{ marginLeft: `${depth * DEPTH_INDENT}px` }}
         onClick={handleClick}
       >
-        {/* Animated running border */}
         {isRunning && <div className="tree-node__running-border" />}
         
         <NodeIcon type={node.type} />
